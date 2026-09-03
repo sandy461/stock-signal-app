@@ -24,7 +24,7 @@ jobs:
           pip install --upgrade pip setuptools
           pip install "buildozer==1.5.0" "cython<3.0.0"
 
-      - name: Accept Android SDK Licenses
+      - name: Setup Android SDK Environment
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
@@ -34,8 +34,8 @@ jobs:
         env:
           APP_ACCEPT_SDK_LICENSES: 1
         run: |
-          rm -rf .buildozer
-          buildozer -v android debug
+          chmod +x main.py || true
+          buildozer android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
