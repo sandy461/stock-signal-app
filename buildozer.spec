@@ -1,7 +1,7 @@
 [app]
 title = Stock Signal Pro
 package.name = stocksignal
-package.domain = org.test
+requirements = python3,kivy
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
