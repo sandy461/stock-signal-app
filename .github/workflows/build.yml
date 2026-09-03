@@ -21,17 +21,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
-          python -m pip install --upgrade pip setuptools
-          python -m pip install "buildozer==1.5.0" "cython<3.0.0"
+          python3.10 -m pip install --upgrade pip setuptools
+          python3.10 -m pip install "buildozer==1.5.0" "cython<3.0.0"
 
       - name: Clean Cache and Build APK
-        env:
-          PYTHON: python3.10
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
+          export PATH="$HOME/.local/bin:$PATH"
           buildozer appclean
-          yes | buildozer -v android debug
+          python3.10 -m buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
