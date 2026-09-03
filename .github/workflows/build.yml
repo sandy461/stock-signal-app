@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
-          buildozer android clean
+          buildozer appclean
           yes | buildozer -v android debug
 
       - name: Upload APK Artifact
