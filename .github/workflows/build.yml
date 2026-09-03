@@ -24,6 +24,12 @@ jobs:
           pip install --upgrade pip setuptools
           pip install buildozer "cython<3.0.0"
 
+      - name: Accept Android SDK Licenses
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
       - name: Build APK with Buildozer
         run: |
           export P4A_PYTHON_VERSION=3.10.12
