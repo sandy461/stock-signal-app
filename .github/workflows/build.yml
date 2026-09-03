@@ -20,13 +20,13 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblldb-dev libffi-dev zlib1g-dev libjpeg-dev libpng-dev
           sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
           pip install --upgrade pip setuptools
           pip install buildozer "cython<3.0.0"
 
       - name: Build APK with Buildozer
         run: |
+          export P4A_PYTHON_VERSION=3.10.12
           yes y | buildozer -v android debug
 
       - name: Upload APK Artifact
