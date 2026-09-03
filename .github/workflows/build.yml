@@ -31,12 +31,11 @@ jobs:
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build APK with Buildozer
+        env:
+          APP_ACCEPT_SDK_LICENSES: 1
         run: |
           rm -rf .buildozer
-          buildozer android debug <<EOF
-          y
-          y
-          EOF
+          buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
