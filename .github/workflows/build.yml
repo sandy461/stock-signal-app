@@ -36,3 +36,4 @@ jobs:
         with:
           name: stock-signal-apk
           path: bin/*.apk
+
