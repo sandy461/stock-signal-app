@@ -1,55 +1,38 @@
-[app]
+name: Build Android APK
 
-# (str) Title of your application
-title = Stock Signal Pro
+on:
+  push:
+    branches: [ "main" ]
 
-# (str) Package name
-package.name = stocksignal
+jobs:
+  build:
+    runs-on: ubuntu-22.04
 
-# (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-# (str) Source code where the main.py live
-source.dir = .
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-# (list) Source files to include (let empty to include all the source files)
-source.include_exts = py,png,jpg,kv,atlas
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+          pip install --upgrade pip setuptools
+          pip install "buildozer==1.5.0" "cython<3.0.0"
 
-# (str) Application versioning
-version = 0.1
+      - name: Clean Cache and Build APK
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          buildozer android clean
+          yes | buildozer -v android debug
 
-# (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy
-
-# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = portrait
-
-# (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
-
-# (list) Permissions
-android.permissions = INTERNET
-
-# (int) Target Android API
-android.api = 33
-
-# (int) Minimum API required
-android.minapi = 21
-
-# (str) Android NDK version
-android.ndk = 25b
-
-# (list) List of architectures to build for
-android.archs = arm64-v8a
-
-# (str) python-for-android git clone-branch
-p4a.branch = master
-
-[buildozer]
-
-# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 2
-
-# (int) Display warning if buildozer is run as root (0 = false, 1 = true)
-warn_on_root = 1
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stock-signal-apk
+          path: bin/*.apk
