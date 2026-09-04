@@ -28,8 +28,8 @@ jobs:
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
-          export PATH="$HOME/.local/bin:$PATH"
-          buildozer appclean
+          rm -rf ~/.buildozer
+          python3.10 -m buildozer appclean
           python3.10 -m buildozer -v android debug
 
       - name: Upload APK Artifact
