@@ -16,7 +16,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,json,csv
 
 # (list) Requirements (ভারী pandas/numpy বাদ দিয়ে হালকা লাইব্রেরি রাখা হয়েছে)
-requirements = python3==3.10.12,kivy==2.3.0,requests,urllib3,certifi
+requirements = python3==3.10.12,kivy==2.3.0,requests
+
 
 # (str) Android API level (SDK)
 android.api = 33
